@@ -785,6 +785,23 @@ src="https://www.facebook.com/tr?id=927153239795105&ev=PageView&noscript=1"
       const data = await res.json();
       if(data.success){
         if(typeof fbq === 'function'){ fbq('track', 'Lead'); }
+
+        // Webhook to Make.com
+        fetch('https://hook.eu1.make.com/q6dpr4sr34yy02kgwrnzszrwm442hy3o', {
+          method: 'POST',
+          headers: {'Content-Type':'application/json'},
+          body: JSON.stringify({
+            source_id: '99c7b7b8-6b8f-4d82-af30-272a609d673d',
+            name: formData.get('name'),
+            phone: formData.get('phone'),
+            preferred_time: formData.get('preferred_time'),
+            amount_range: formData.get('amount_range'),
+            duration: formData.get('duration'),
+            priority: formData.get('priority'),
+            liquidity: formData.get('liquidity')
+          })
+        }).catch(err => console.error('Webhook error:', err));
+
         form.style.display = 'none';
         document.getElementById('thankYou').style.display = 'block';
       } else {
